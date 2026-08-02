@@ -21,31 +21,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const descActivity = document.getElementById('desc-activity');
     const descStress = document.getElementById('desc-stress');
     const recommendationsList = document.getElementById('recommendations-list');
-    
-    const apiStatusBadge = document.getElementById('api-status-badge');
-    const apiStatusText = document.getElementById('api-status-text');
-
-    function setApiStatus(type, text) {
-        if (!apiStatusBadge || !apiStatusText) return;
-        apiStatusBadge.className = `api-status-badge status-${type}`;
-        apiStatusText.textContent = text;
-    }
 
     // Warm up the backend API on page load (Render free tier pre-warming)
     async function prewarmBackend() {
-        setApiStatus('warning', 'Warming Backend API...');
         try {
             const controller = new AbortController();
             const timer = setTimeout(() => controller.abort(), 4000);
-            const res = await fetch(HEALTH_CHECK_URL, { signal: controller.signal });
+            await fetch(HEALTH_CHECK_URL, { signal: controller.signal });
             clearTimeout(timer);
-            if (res.ok) {
-                setApiStatus('success', 'API Connected');
-            } else {
-                setApiStatus('info', 'Instant Model Ready');
-            }
         } catch (e) {
-            setApiStatus('info', 'Instant Model Ready');
+            // Background pre-warm failed/timed out quietly
         }
     }
 
@@ -181,11 +166,9 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             const data = await response.json();
-            setApiStatus('success', 'API Connected');
             renderResults(data, payload);
         } catch (error) {
             console.warn("API delayed or unreachable, using instant fallback predictor:", error);
-            setApiStatus('info', 'Instant Model Active');
             const fallbackScore = calculateLocalFallbackScore(payload);
             renderResults({
                 predicted_mental_health_score: fallbackScore,
@@ -193,7 +176,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }, payload);
 
             // Re-warm in background so subsequent requests hit live backend
-            fetch(HEALTH_CHECK_URL).then(() => setApiStatus('success', 'API Connected')).catch(() => {});
+            fetch(HEALTH_CHECK_URL).catch(() => {});
         } finally {
             setLoading(false);
         }
