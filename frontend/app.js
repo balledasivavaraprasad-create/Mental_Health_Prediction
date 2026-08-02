@@ -2,7 +2,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const API_URL = 'http://127.0.0.1:8000/predict';
     const HEALTH_CHECK_URL = 'http://127.0.0.1:8000/';
 
-    // Elements
     const form = document.getElementById('prediction-form');
     const btnSubmit = document.getElementById('btn-submit');
     const btnText = btnSubmit.querySelector('.btn-text');
@@ -21,7 +20,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const recommendationsList = document.getElementById('recommendations-list');
     const apiStatusText = document.getElementById('api-status-text');
 
-    // Preset configurations
     const presets = {
         heavy: {
             Age: 20,
@@ -67,7 +65,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    // Synchronize Range Sliders with text labels
     const sliders = [
         { input: 'Avg_Daily_Usage_Hours', label: 'usage-val' },
         { input: 'Study_Hours', label: 'study-val' },
@@ -85,7 +82,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Preset button event listeners
     document.querySelectorAll('.btn-preset').forEach(btn => {
         btn.addEventListener('click', () => {
             const key = btn.getAttribute('data-preset');
@@ -105,11 +101,9 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Form submit handler
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
 
-        // Extract form payload
         const payload = {
             Age: parseInt(document.getElementById('Age').value, 10),
             Gender: document.getElementById('Gender').value,
@@ -169,28 +163,22 @@ document.addEventListener('DOMContentLoaded', () => {
         const score = result.predicted_mental_health_score;
         const risk = result.risk_level || getRiskLabel(score);
 
-        // Hide placeholder, show display
         resultsPlaceholder.classList.add('hidden');
         resultsDisplay.classList.remove('hidden');
 
-        // Animate score value counter
         animateValue(scoreVal, 0, score, 600);
 
-        // Update risk badge & class
         riskBadge.textContent = risk;
         riskBadge.className = 'risk-badge ' + getRiskClass(score);
 
-        // Update meter bar (scale 1.0 to 10.0 mapped to 0% - 100%)
         const percentage = Math.min(Math.max(((score - 1.0) / 9.0) * 100, 0), 100);
         meterFill.style.width = `${percentage}%`;
 
-        // Update Factor Breakdown
         descScreen.textContent = payload.Avg_Daily_Usage_Hours > 7 ? 'High Burden' : payload.Avg_Daily_Usage_Hours > 4 ? 'Moderate' : 'Low Burden';
         descSleep.textContent = payload.Sleep_Hours_Per_Night < 6 ? 'Deficient' : payload.Sleep_Hours_Per_Night > 7 ? 'Healthy' : 'Fair';
         descActivity.textContent = payload.Physical_Activity_Hours < 0.8 ? 'Low' : payload.Physical_Activity_Hours > 2 ? 'Active' : 'Moderate';
         descStress.textContent = payload.Stress_Level;
 
-        // Generate dynamic actionable recommendations
         generateRecommendations(payload, score);
     }
 

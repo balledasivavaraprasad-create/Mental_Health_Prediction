@@ -59,7 +59,6 @@ body {
     gap: 24px;
 }
 
-/* Header Styling */
 .app-header {
     display: flex;
     justify-content: center;
@@ -97,7 +96,6 @@ body {
     letter-spacing: 0.02em;
 }
 
-/* Main Layout Grid */
 .dashboard-grid {
     display: grid;
     grid-template-columns: 1.15fr 0.85fr;
@@ -111,7 +109,6 @@ body {
     }
 }
 
-/* Cards */
 .card {
     background: var(--bg-card);
     backdrop-filter: blur(16px);
@@ -136,7 +133,6 @@ body {
     color: var(--text-secondary);
 }
 
-/* Preset Buttons */
 .preset-section {
     display: flex;
     align-items: center;
@@ -183,7 +179,6 @@ body {
     transform: translateY(-1px);
 }
 
-/* Form Styles */
 .prediction-form {
     display: flex;
     flex-direction: column;
@@ -261,7 +256,6 @@ select option {
     color: #F3F4F6;
 }
 
-/* Custom Range Slider */
 input[type="range"] {
     -webkit-appearance: none;
     appearance: none;
@@ -289,7 +283,6 @@ input[type="range"]::-webkit-slider-thumb:hover {
     transform: scale(1.2);
 }
 
-/* Primary Submit Button */
 .form-actions {
     margin-top: 8px;
 }
@@ -321,7 +314,6 @@ input[type="range"]::-webkit-slider-thumb:hover {
     transform: translateY(0);
 }
 
-/* Spinner */
 .btn-spinner {
     width: 20px;
     height: 20px;
@@ -339,7 +331,6 @@ input[type="range"]::-webkit-slider-thumb:hover {
     display: none !important;
 }
 
-/* Results Display Area */
 .results-card {
     position: sticky;
     top: 24px;
@@ -377,7 +368,6 @@ input[type="range"]::-webkit-slider-thumb:hover {
     max-width: 320px;
 }
 
-/* Results Card Content */
 .gauge-container {
     display: flex;
     flex-direction: column;
@@ -420,7 +410,6 @@ input[type="range"]::-webkit-slider-thumb:hover {
     border: 1px solid currentColor;
 }
 
-/* Risk colors */
 .risk-low {
     background: rgba(16, 185, 129, 0.15);
     color: var(--color-low);
@@ -441,7 +430,6 @@ input[type="range"]::-webkit-slider-thumb:hover {
     color: var(--color-high);
 }
 
-/* Meter Bar */
 .meter-bar-wrapper {
     width: 100%;
     height: 10px;
@@ -468,7 +456,6 @@ input[type="range"]::-webkit-slider-thumb:hover {
     margin-bottom: 28px;
 }
 
-/* Factors Grid */
 .insights-container h4,
 .recommendations-box h4 {
     font-size: 0.9rem;
@@ -516,7 +503,6 @@ input[type="range"]::-webkit-slider-thumb:hover {
     color: var(--text-primary);
 }
 
-/* Recommendations */
 .recommendations-box {
     background: rgba(99, 102, 241, 0.06);
     border: 1px solid rgba(99, 102, 241, 0.2);
@@ -546,12 +532,4 @@ input[type="range"]::-webkit-slider-thumb:hover {
     position: absolute;
     left: 0;
     top: -2px;
-}
-
-/* Footer */
-.app-footer {
-    text-align: center;
-    font-size: 0.8rem;
-    color: var(--text-muted);
-    padding: 12px 0;
 }

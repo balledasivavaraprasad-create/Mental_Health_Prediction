@@ -11,7 +11,6 @@
 </head>
 <body>
     <div class="app-layout">
-        <!-- Header -->
         <header class="app-header">
             <div class="header-title-container">
                 <h1 class="main-title">Mental Health Predictor</h1>
@@ -19,17 +18,13 @@
             </div>
         </header>
 
-        <!-- Main Content Area -->
         <main class="dashboard-grid">
-            
-            <!-- Left Side: Input Form -->
             <section class="card form-card">
                 <div class="card-header">
                     <h2>Student Profile & Habit Parameters</h2>
                     <p>Enter daily usage metrics, study patterns, and lifestyle habits to predict mental health impact score.</p>
                 </div>
 
-                <!-- Preset Quick Buttons -->
                 <div class="preset-section">
                     <span class="preset-label">Quick Presets:</span>
                     <div class="preset-buttons">
@@ -40,8 +35,6 @@
                 </div>
 
                 <form id="prediction-form" class="prediction-form">
-                    
-                    <!-- Section 1: Demographics -->
                     <div class="form-section">
                         <h3 class="section-title">
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
@@ -85,7 +78,6 @@
                         </div>
                     </div>
 
-                    <!-- Section 2: Social Media Habits -->
                     <div class="form-section">
                         <h3 class="section-title">
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
@@ -126,7 +118,6 @@
                         </div>
                     </div>
 
-                    <!-- Section 3: Lifestyle & Wellbeing -->
                     <div class="form-section">
                         <h3 class="section-title">
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
@@ -166,7 +157,6 @@
                 </form>
             </section>
 
-            <!-- Right Side: Results & Insights Dashboard -->
             <section class="card results-card">
                 <div class="card-header">
                     <h2>Predicted Wellbeing Risk</h2>
@@ -184,7 +174,6 @@
                 </div>
 
                 <div id="results-display" class="results-display hidden">
-                    <!-- Meter Gauge Container -->
                     <div class="gauge-container">
                         <div class="score-circle">
                             <div class="score-value" id="score-val">0.0</div>
@@ -193,7 +182,6 @@
                         <div class="risk-badge" id="risk-badge">Low Risk</div>
                     </div>
 
-                    <!-- Visual Progress Bar -->
                     <div class="meter-bar-wrapper">
                         <div class="meter-bar-fill" id="meter-fill"></div>
                     </div>
@@ -203,7 +191,6 @@
                         <span>10.0 (Severe Impact)</span>
                     </div>
 
-                    <!-- Key Insights Grid -->
                     <div class="insights-container">
                         <h4>Impact Factor Breakdown</h4>
                         <div class="factors-grid">
@@ -238,7 +225,6 @@
                         </div>
                     </div>
 
-                    <!-- Personal Recommendations -->
                     <div class="recommendations-box">
                         <h4>Recommendations & Action Steps</h4>
                         <ul id="recommendations-list">
@@ -250,8 +236,6 @@
                 </div>
             </section>
         </main>
-
-        <!-- Footer -->
     </div>
 
     <script src="app.js"></script>
