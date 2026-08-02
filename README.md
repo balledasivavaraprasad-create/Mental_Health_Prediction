@@ -1,109 +1,67 @@
-# Mental Health Predictor 🧠📊
+# Student Mental Health Prediction
 
-A machine learning web application designed to analyze student lifestyle habits—such as social media usage, phone unlocks, sleep patterns, physical activity, and academic stress—and predict their overall mental health score.
+This project is a machine learning web application built to predict a student's mental health impact score based on their daily screen time, social media habits, and lifestyle routines.
+
+The goal of the project is to analyze how factors like daily phone unlocks, primary social media platform, sleep hours, physical activity, study time, and stress levels relate to overall student mental health.
 
 ---
 
-## 📂 Project Structure
+## Tech Stack
+
+- **Machine Learning & Data**: Python, Scikit-Learn, Pandas, Joblib, Jupyter Notebook
+- **Backend API**: FastAPI, Uvicorn, Pydantic
+- **Frontend**: HTML5, CSS3, JavaScript (Vanilla JS)
+
+---
+
+## Dataset & Feature Engineering
+
+The model was trained on the `Student Social Media And Mental Health Impact.csv` dataset, which captures demographic details, digital usage metrics, and self-reported lifestyle indicators.
+
+The feature preprocessing pipeline includes:
+- **Numerical Features**: `Age`, `Avg_Daily_Usage_Hours`, `Daily_Unlocks`, `Physical_Activity_Hours`, and `Sleep_Hours_Per_Night` scaled using `StandardScaler`.
+- **Skewed Features**: `Study_Hours` transformed using `log1p` prior to standard scaling.
+- **Ordinal Features**: `Stress_Level` mapped ordinally (`Low`, `Medium`, `High`, `Very High`).
+- **Categorical Features**: `Gender`, `Academic_Level`, `Most_Used_Platform`, `Purpose_Of_Use`, and `Grouped_Countries` encoded using `OneHotEncoder`.
+
+---
+
+## Machine Learning Model
+
+- **Algorithm**: `RandomForestRegressor`
+- **Pipeline**: Scikit-Learn `Pipeline` combined with a `ColumnTransformer` to handle feature transformation and model prediction in a single execution step.
+- **Model Output**: Predicts a continuous mental health impact score (on a 1 to 10 scale).
+
+The trained pipeline is serialized into `Mental_Health_Prediction.pkl` for fast inference in the API backend.
+
+---
+
+## Project Structure
 
 ```text
 Mental_Health_Prediction/
-├── frontend/                                # Frontend web application (Vercel Ready)
-│   ├── index.html                           # Main web layout
-│   ├── style.css                            # Glassmorphism dark mode stylesheet
-│   ├── app.js                               # Form handling & API fetch logic
-│   └── vercel.json                          # Vercel deployment configuration
-├── main.py                                  # FastAPI server & model inference endpoints
-├── Procfile                                 # Render deployment command
-├── render.yaml                              # Render web service configuration
+├── main.py                                  # FastAPI backend handling model loading & API endpoints
 ├── Mental_Health_Prediction.pkl             # Serialized Scikit-Learn Pipeline
-├── Mental_Health_Prediction.ipynb           # Model training & EDA Jupyter Notebook
-├── Student Social Media And Mental Health Impact.csv # Dataset
-├── requirements.txt                         # Python dependencies for backend
-└── README.md                                # Project documentation
+├── Mental_Health_Prediction.ipynb           # Notebook containing data cleaning, EDA & model training
+├── Student Social Media And Mental Health Impact.csv # Dataset used for model training
+├── requirements.txt                         # Python dependencies
+└── frontend/                                # Web application interface
+    ├── index.html                           # Main web page layout
+    ├── style.css                            # Styling and responsive UI design
+    └── app.js                               # Form submission, API requests & dynamic feedback logic
 ```
 
 ---
 
-## 🚀 Deployment Guide
+## How It Works
 
-### ☁️ 1. Deploy Backend to Render
-1. Sign in to [Render Dashboard](https://dashboard.render.com/).
-2. Click **New +** -> **Web Service**.
-3. Connect your GitHub repository (`Mental_Health_Prediction`).
-4. Set the following settings:
-   - **Environment**: `Python 3`
-   - **Build Command**: `pip install -r requirements.txt`
-   - **Start Command**: `uvicorn main:app --host 0.0.0.0 --port $PORT`
-5. Click **Create Web Service**. Your backend API will be live!
+1. **User Input**: The web UI collects student details including demographics, platform preferences, daily usage, phone unlocks, sleep duration, study hours, physical activity, and stress level.
+2. **Prediction Request**: The frontend sends a JSON payload to the FastAPI backend (`POST /predict`).
+3. **Backend Processing**: FastAPI formats the incoming payload into a Pandas DataFrame, passes it through the loaded `RandomForestRegressor` pipeline, and computes the predicted score.
+4. **Risk Categorization**: The backend maps the raw score into a risk level:
+   - Below 5.0: Low Risk
+   - 5.0 - 6.49: Moderate Risk
+   - 6.5 - 7.49: Elevated Risk
+   - 7.5 and above: High Risk
+5. **Dynamic Feedback**: The UI displays the score with an animated counter, risk level indicator, and personalized habit suggestions based on the submitted data.
 
----
-
-### 🌐 2. Deploy Frontend to Vercel
-1. Go to [Vercel Dashboard](https://vercel.com/new).
-2. Import this GitHub repository (`Mental_Health_Prediction`).
-3. Set the **Root Directory** to `frontend`.
-4. Click **Deploy**!
-
----
-
-## 🐍 Local Development Setup
-
-1. Clone the repository and install backend dependencies:
-```bash
-git clone https://github.com/balledasivavaraprasad-create/Mental_Health_Prediction.git
-cd Mental_Health_Prediction
-pip install -r requirements.txt
-```
-
-2. Start FastAPI backend server:
-```bash
-uvicorn main:app --host 127.0.0.1 --port 8000 --reload
-```
-
-3. Launch frontend web server:
-```bash
-cd frontend
-python3 -m http.server 8080
-```
-Navigate to `http://127.0.0.1:8080` in your web browser.
-
----
-
-## 📡 API Endpoint Reference
-
-### `POST /predict`
-
-**Request Headers:** `Content-Type: application/json`
-
-**Sample Request Body:**
-```json
-{
-  "Age": 21,
-  "Gender": "Female",
-  "Country": "India",
-  "Academic_Level": "Undergraduate",
-  "Most_Used_Platform": "Instagram",
-  "Purpose_Of_Use": "Entertainment",
-  "Avg_Daily_Usage_Hours": 5.5,
-  "Daily_Unlocks": 85,
-  "Study_Hours": 4.0,
-  "Physical_Activity_Hours": 1.0,
-  "Sleep_Hours_Per_Night": 6.5,
-  "Stress_Level": "High"
-}
-```
-
-**Sample Response:**
-```json
-{
-  "predicted_mental_health_score": 5.74,
-  "risk_level": "Moderate Risk",
-  "status": "success"
-}
-```
-
----
-
-## 📄 License
-This project is open-source under the MIT License.

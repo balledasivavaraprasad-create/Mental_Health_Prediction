@@ -22,7 +22,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const descStress = document.getElementById('desc-stress');
     const recommendationsList = document.getElementById('recommendations-list');
 
-    // Warm up the backend API on page load (Render free tier pre-warming)
     async function prewarmBackend() {
         try {
             const controller = new AbortController();
@@ -30,7 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
             await fetch(HEALTH_CHECK_URL, { signal: controller.signal });
             clearTimeout(timer);
         } catch (e) {
-            // Background pre-warm failed/timed out quietly
+            // Background pre-warm failed/timed out quietly.
         }
     }
 
