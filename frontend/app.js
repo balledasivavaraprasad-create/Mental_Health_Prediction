@@ -1,6 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const API_URL = 'http://127.0.0.1:8000/predict';
-    const HEALTH_CHECK_URL = 'http://127.0.0.1:8000/';
+    const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+    const BACKEND_BASE = isLocal ? 'http://127.0.0.1:8000' : 'https://mental-health-prediction-api.onrender.com';
+    const API_URL = `${BACKEND_BASE}/predict`;
+    const HEALTH_CHECK_URL = `${BACKEND_BASE}/`;
 
     const form = document.getElementById('prediction-form');
     const btnSubmit = document.getElementById('btn-submit');

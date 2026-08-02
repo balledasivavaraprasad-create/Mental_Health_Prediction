@@ -2,18 +2,6 @@
 
 A machine learning web application designed to analyze student lifestyle habits—such as social media usage, phone unlocks, sleep patterns, physical activity, and academic stress—and predict their overall mental health score.
 
-The repository is structured with a **FastAPI backend** (Scikit-Learn Random Forest Pipeline) and a standalone **`frontend/`** directory optimized for zero-config deployment on platforms like **Vercel**.
-
----
-
-## 🌟 Key Features
-
-- **Standalone Frontend (`/frontend`)**: Clean HTML5, CSS3, and JavaScript app tailored for Vercel deployment.
-- **Interactive Web Interface**: Dynamic form controls, custom range sliders, preset profiles, and responsive dark mode UI.
-- **Real-Time Model Scoring**: Asynchronous fetch requests to the trained Random Forest model (`POST /predict`).
-- **Visual Wellbeing Insights**: Displays score progress, risk classification (Low, Moderate, Elevated, High Risk), and specific factor breakdowns.
-- **Personalized Action Steps**: Dynamic lifestyle recommendations tailored to user inputs.
-
 ---
 
 ## 📂 Project Structure
@@ -26,27 +14,40 @@ Mental_Health_Prediction/
 │   ├── app.js                               # Form handling & API fetch logic
 │   └── vercel.json                          # Vercel deployment configuration
 ├── main.py                                  # FastAPI server & model inference endpoints
+├── Procfile                                 # Render deployment command
+├── render.yaml                              # Render web service configuration
 ├── Mental_Health_Prediction.pkl             # Serialized Scikit-Learn Pipeline
 ├── Mental_Health_Prediction.ipynb           # Model training & EDA Jupyter Notebook
 ├── Student Social Media And Mental Health Impact.csv # Dataset
 ├── requirements.txt                         # Python dependencies for backend
-├── README.md                                # Project documentation
-└── .gitignore                               # Ignored git files
+└── README.md                                # Project documentation
 ```
 
 ---
 
-## 🚀 Deployment & Local Setup
+## 🚀 Deployment Guide
 
-### 🌐 Deploy Frontend to Vercel
-1. Go to [Vercel Dashboard](https://vercel.com/new).
-2. Import this GitHub repository (`Mental_Health_Prediction`).
-3. Set the **Root Directory** to `frontend`.
-4. Click **Deploy**. Vercel will deploy the static site instantly!
+### ☁️ 1. Deploy Backend to Render
+1. Sign in to [Render Dashboard](https://dashboard.render.com/).
+2. Click **New +** -> **Web Service**.
+3. Connect your GitHub repository (`Mental_Health_Prediction`).
+4. Set the following settings:
+   - **Environment**: `Python 3`
+   - **Build Command**: `pip install -r requirements.txt`
+   - **Start Command**: `uvicorn main:app --host 0.0.0.0 --port $PORT`
+5. Click **Create Web Service**. Your backend API will be live!
 
 ---
 
-### 🐍 Local Backend Setup (FastAPI)
+### 🌐 2. Deploy Frontend to Vercel
+1. Go to [Vercel Dashboard](https://vercel.com/new).
+2. Import this GitHub repository (`Mental_Health_Prediction`).
+3. Set the **Root Directory** to `frontend`.
+4. Click **Deploy**!
+
+---
+
+## 🐍 Local Development Setup
 
 1. Clone the repository and install backend dependencies:
 ```bash
@@ -55,18 +56,17 @@ cd Mental_Health_Prediction
 pip install -r requirements.txt
 ```
 
-2. Launch the FastAPI backend:
+2. Start FastAPI backend server:
 ```bash
 uvicorn main:app --host 127.0.0.1 --port 8000 --reload
 ```
-The API server will run at `http://127.0.0.1:8000`. You can test API endpoints at `http://127.0.0.1:8000/docs`.
 
-3. Launch the Frontend locally:
+3. Launch frontend web server:
 ```bash
 cd frontend
 python3 -m http.server 8080
 ```
-Open `http://127.0.0.1:8080` in your web browser.
+Navigate to `http://127.0.0.1:8080` in your web browser.
 
 ---
 
@@ -76,7 +76,7 @@ Open `http://127.0.0.1:8080` in your web browser.
 
 **Request Headers:** `Content-Type: application/json`
 
-**Sample Body:**
+**Sample Request Body:**
 ```json
 {
   "Age": 21,
