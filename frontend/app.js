@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
     const customBackend = localStorage.getItem('CUSTOM_API_URL');
-    const BACKEND_BASE = customBackend || (isLocal ? 'http://127.0.0.1:8000' : 'https://mental-health-prediction-api.onrender.com');
+    const BACKEND_BASE = customBackend || (isLocal ? 'http://127.0.0.1:8000' : 'https://mental-health-prediction-g3i2.onrender.com');
     const API_URL = `${BACKEND_BASE.replace(/\/$/, '')}/predict`;
     const HEALTH_CHECK_URL = `${BACKEND_BASE.replace(/\/$/, '')}/`;
 
