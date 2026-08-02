@@ -85,23 +85,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Check backend health status
-    async function checkApiHealth() {
-        try {
-            const res = await fetch(HEALTH_CHECK_URL, { method: 'GET' });
-            if (res.ok) {
-                apiStatusText.textContent = "Backend Connected";
-                apiStatusText.parentElement.querySelector('.status-dot').className = "status-dot online";
-            } else {
-                apiStatusText.textContent = "Backend Offline";
-                apiStatusText.parentElement.querySelector('.status-dot').className = "status-dot offline";
-            }
-        } catch (e) {
-            apiStatusText.textContent = "Backend Server Offline";
-        }
-    }
-    checkApiHealth();
-
     // Preset button event listeners
     document.querySelectorAll('.btn-preset').forEach(btn => {
         btn.addEventListener('click', () => {
@@ -117,7 +100,6 @@ document.addEventListener('DOMContentLoaded', () => {
             const elem = document.getElementById(field);
             if (elem) {
                 elem.value = data[field];
-                // Trigger input event for sliders
                 elem.dispatchEvent(new Event('input'));
             }
         });

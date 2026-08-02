@@ -62,68 +62,39 @@ body {
 /* Header Styling */
 .app-header {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
-    padding: 16px 24px;
+    padding: 20px 24px;
     background: var(--bg-card);
     backdrop-filter: blur(12px);
     border: 1px solid var(--border-color);
     border-radius: var(--radius-lg);
     box-shadow: var(--shadow-soft);
+    text-align: center;
 }
 
-.brand {
+.header-title-container {
     display: flex;
+    flex-direction: column;
     align-items: center;
-    gap: 16px;
+    gap: 4px;
 }
 
-.logo-icon {
-    width: 44px;
-    height: 44px;
-    border-radius: var(--radius-md);
-    background: var(--accent-gradient);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #FFFFFF;
-    box-shadow: var(--shadow-glow);
-}
-
-.brand h1 {
-    font-size: 1.35rem;
+.main-title {
+    font-size: 1.85rem;
     font-weight: 800;
-    letter-spacing: -0.02em;
-    background: linear-gradient(135deg, #FFFFFF 0%, #CBD5E1 100%);
+    letter-spacing: -0.03em;
+    background: linear-gradient(135deg, #FFFFFF 0%, #A5B4FC 50%, #C084FC 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+    text-shadow: 0 0 30px rgba(165, 180, 252, 0.2);
 }
 
 .subtitle {
-    font-size: 0.85rem;
+    font-size: 0.9rem;
     color: var(--text-secondary);
-    font-weight: 400;
-}
-
-.header-status {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 0.85rem;
     font-weight: 500;
-    color: var(--text-secondary);
-    background: var(--bg-input);
-    padding: 6px 14px;
-    border-radius: 20px;
-    border: 1px solid var(--border-color);
-}
-
-.status-dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background-color: var(--color-low);
-    box-shadow: 0 0 8px var(--color-low);
+    letter-spacing: 0.02em;
 }
 
 /* Main Layout Grid */
@@ -537,7 +508,6 @@ input[type="range"]::-webkit-slider-thumb:hover {
 .factor-title {
     font-size: 0.75rem;
     color: var(--text-muted);
-
 }
 
 .factor-desc {
