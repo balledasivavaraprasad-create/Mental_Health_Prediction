@@ -21,7 +21,35 @@ document.addEventListener('DOMContentLoaded', () => {
     const descActivity = document.getElementById('desc-activity');
     const descStress = document.getElementById('desc-stress');
     const recommendationsList = document.getElementById('recommendations-list');
+    
+    const apiStatusBadge = document.getElementById('api-status-badge');
     const apiStatusText = document.getElementById('api-status-text');
+
+    function setApiStatus(type, text) {
+        if (!apiStatusBadge || !apiStatusText) return;
+        apiStatusBadge.className = `api-status-badge status-${type}`;
+        apiStatusText.textContent = text;
+    }
+
+    // Warm up the backend API on page load (Render free tier pre-warming)
+    async function prewarmBackend() {
+        setApiStatus('warning', 'Warming Backend API...');
+        try {
+            const controller = new AbortController();
+            const timer = setTimeout(() => controller.abort(), 4000);
+            const res = await fetch(HEALTH_CHECK_URL, { signal: controller.signal });
+            clearTimeout(timer);
+            if (res.ok) {
+                setApiStatus('success', 'API Connected');
+            } else {
+                setApiStatus('info', 'Instant Model Ready');
+            }
+        } catch (e) {
+            setApiStatus('info', 'Instant Model Ready');
+        }
+    }
+
+    prewarmBackend();
 
     const presets = {
         heavy: {
@@ -104,6 +132,22 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    async function fetchWithTimeout(resource, options = {}, timeoutMs = 4500) {
+        const controller = new AbortController();
+        const id = setTimeout(() => controller.abort(), timeoutMs);
+        try {
+            const response = await fetch(resource, {
+                ...options,
+                signal: controller.signal
+            });
+            clearTimeout(id);
+            return response;
+        } catch (error) {
+            clearTimeout(id);
+            throw error;
+        }
+    }
+
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
 
@@ -125,11 +169,11 @@ document.addEventListener('DOMContentLoaded', () => {
         setLoading(true);
 
         try {
-            const response = await fetch(API_URL, {
+            const response = await fetchWithTimeout(API_URL, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload)
-            });
+            }, 4500);
 
             if (!response.ok) {
                 const errData = await response.json();
@@ -137,14 +181,19 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             const data = await response.json();
+            setApiStatus('success', 'API Connected');
             renderResults(data, payload);
         } catch (error) {
-            console.warn("API Error, utilizing local fallback predictor for demo:", error);
+            console.warn("API delayed or unreachable, using instant fallback predictor:", error);
+            setApiStatus('info', 'Instant Model Active');
             const fallbackScore = calculateLocalFallbackScore(payload);
             renderResults({
                 predicted_mental_health_score: fallbackScore,
                 risk_level: getRiskLabel(fallbackScore)
             }, payload);
+
+            // Re-warm in background so subsequent requests hit live backend
+            fetch(HEALTH_CHECK_URL).then(() => setApiStatus('success', 'API Connected')).catch(() => {});
         } finally {
             setLoading(false);
         }
